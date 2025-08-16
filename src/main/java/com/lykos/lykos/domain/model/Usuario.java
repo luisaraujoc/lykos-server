@@ -1,43 +1,51 @@
 package com.lykos.lykos.domain.model;
 
+import com.lykos.lykos.domain.model.enums.AccountStatus;
+import com.lykos.lykos.domain.model.enums.UserType;
+import jakarta.persistence.*;
+import lombok.*;
 
-import java.util.Date;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.Getter;
-
-import com.lykos.lykos.domain.enums.TipoUsuario;
-import com.lykos.lykos.domain.enums.StatusConta;
-
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
-@Table(name = "usuarios")
-@Getter
-@Setter
-@ToString
+@Table(name = "usuario")
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class Usuario {
 
-    private Long id;
-    private String nome;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_usuario")
+    private Integer id;
+
+    @Column(name = "nome_completo", nullable = false, length = 100)
+    private String nomeCompleto;
+
+    @Column(nullable = false, length = 100, unique = true)
     private String email;
+
+    @Column(name = "senha_hash", nullable = false, length = 255)
     private String senhaHash;
-    private Date dataNascimento;
+
+    @Column(length = 20)
     private String telefone;
-    private TipoUsuario tipo;
-    private StatusConta status;
 
-    Usuario(){}
+    @Builder.Default
+    @Column(name = "data_cadastro", nullable = false)
+    private LocalDateTime dataCadastro = LocalDateTime.now();
 
-    Usuario(Long id, String nome, String email, String senhaHash, Date dataNascimento, String telefone, TipoUsuario tipo, StatusConta status) {
-        this.id = id;
-        this.nome = nome;
-        this.email = email;
-        this.senhaHash = senhaHash;
-        this.dataNascimento = dataNascimento;
-        this.telefone = telefone;
-        this.tipo = tipo;
-        this.status = status;
-    }
+    @Column(name = "ultimo_login")
+    private LocalDateTime ultimoLogin;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_usuario", nullable = false)
+    private UserType tipoUsuario;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status_conta", nullable = false)
+    private AccountStatus statusConta = AccountStatus.ativo;
+
+    // RELACIONAMENTOS
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Endereco> enderecos;
 }
