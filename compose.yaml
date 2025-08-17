@@ -2,8 +2,24 @@ services:
   postgres:
     image: 'postgres:latest'
     environment:
-      - 'POSTGRES_DB=mydatabase'
-      - 'POSTGRES_PASSWORD=secret'
-      - 'POSTGRES_USER=myuser'
+      - POSTGRES_DB=lykos_db
+      - POSTGRES_PASSWORD=lykos
+      - POSTGRES_USER=lykos
     ports:
-      - '5432'
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/lykos_db
+      SPRING_DATASOURCE_USERNAME: lykos
+      SPRING_DATASOURCE_PASSWORD: lykos
+    ports:
+      - "8080:8080"
+
+volumes:
+  postgres_data:
