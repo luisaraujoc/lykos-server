@@ -1,25 +1,26 @@
 services:
   postgres:
-    image: 'postgres:latest'
+    image: 'postgres:16'
+    container_name: lykos_postgres
     environment:
-      - POSTGRES_DB=lykos_db
-      - POSTGRES_PASSWORD=lykos
-      - POSTGRES_USER=lykos
+      POSTGRES_DB: lykos_db
+      POSTGRES_USER: lykos
+      POSTGRES_PASSWORD: lykos
     ports:
-      - '5432:5432'
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  app:
-    build: .
-    depends_on:
-      - postgres
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: lykos_pgadmin
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/lykos_db
-      SPRING_DATASOURCE_USERNAME: lykos
-      SPRING_DATASOURCE_PASSWORD: lykos
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
     ports:
-      - "8080:8080"
+      - "8081:80"
+    volumes:
+      - ./scripts:/var/lib/pgadmin/scripts   # <- monta sua pasta local "scripts" no pgAdmin
 
 volumes:
   postgres_data:
