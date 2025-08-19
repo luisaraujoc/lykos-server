@@ -20,6 +20,10 @@ public class Estado {
     @Column(nullable = false, length = 50)
     private String nome;
     
+    @ManyToOne
+    @JoinColumn(name = "id_pais", nullable = false)
+    private Pais pais;
+    
     @OneToMany(mappedBy = "estado", cascade = CascadeType.ALL)
     private List<Cidade> cidades;
 }
