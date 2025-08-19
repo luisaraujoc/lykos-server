@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 services:
   postgres:
     image: 'postgres:16'
@@ -24,3 +25,31 @@ services:
 
 volumes:
   postgres_data:
+=======
+services:
+  postgres:
+    image: 'postgres:16'
+    container_name: lykos_postgres
+    environment:
+      POSTGRES_DB: lykos_db
+      POSTGRES_USER: lykos
+      POSTGRES_PASSWORD: lykos
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: lykos_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: luislk_@Outlook.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8081:80"
+    volumes:
+      - ./scripts:/var/lib/pgadmin/scripts   # <- monta sua pasta local "scripts" no pgAdmin
+
+volumes:
+  postgres_data:
+>>>>>>> 63321bc (Criando autenticação inicial de usuário, metodos de mudança de estado e administrativos.)
