@@ -14,7 +14,7 @@ import java.util.List;
 public class Freelancer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idFreelancer;
+    private Integer idFreelancer;
     
     @OneToOne
     @JoinColumn(name = "id_usuario", nullable = false, unique = true)
@@ -30,7 +30,7 @@ public class Freelancer {
     private String fotoPerfilUrl;
     
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "profile_status")
     private ProfileStatus statusPerfil = ProfileStatus.ATIVO;
     
     @Column(nullable = false)

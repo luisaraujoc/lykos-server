@@ -12,32 +12,32 @@ import jakarta.persistence.*;
 public class Endereco {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idEndereco;
-    
+    private Integer idEndereco;
+
     @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
-    
+
     @ManyToOne
     @JoinColumn(name = "id_cidade", nullable = false)
     private Cidade cidade;
-    
+
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "address_type")
     private AddressType tipoEndereco = AddressType.RESIDENCIAL;
-    
+
     @Column(nullable = false, length = 10)
     private String cep;
-    
+
     @Column(nullable = false, length = 100)
     private String logradouro;
-    
+
     @Column(nullable = false, length = 10)
     private String numero;
-    
+
     @Column(length = 50)
     private String complemento;
-    
+
     @Column(nullable = false, length = 50)
     private String bairro;
 }

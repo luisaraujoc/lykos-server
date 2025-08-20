@@ -22,7 +22,7 @@ public class UsuarioService {
     // ========== MÉTODOS DE CRIAÇÃO ==========
 
     public Usuario criarUsuario(String nomeCompleto, String nomeUsuario,
-                                String email, String senha, UserType tipoUsuario) {
+            String email, String senha, UserType tipoUsuario) {
 
         validarDisponibilidadeEmail(email);
         validarDisponibilidadeNomeUsuario(nomeUsuario);
@@ -38,7 +38,7 @@ public class UsuarioService {
     }
 
     public Usuario criarUsuarioComSenhaTemporaria(String nomeCompleto, String nomeUsuario,
-                                                  String email, UserType tipoUsuario) {
+            String email, UserType tipoUsuario) {
 
         validarDisponibilidadeEmail(email);
         validarDisponibilidadeNomeUsuario(nomeUsuario);
@@ -71,7 +71,7 @@ public class UsuarioService {
         return Optional.empty();
     }
 
-    public boolean verificarSenha(Long userId, String senha) {
+    public boolean verificarSenha(Integer userId, String senha) {
         return usuarioRepository.findById(userId)
                 .map(usuario -> passwordService.matches(senha, usuario.getSenhaHash()))
                 .orElse(false);
@@ -80,7 +80,7 @@ public class UsuarioService {
     // ========== MÉTODOS DE ALTERAÇÃO DE SENHA ==========
 
     @Transactional
-    public void atualizarSenha(Long userId, String senhaAtual, String novaSenha) {
+    public void atualizarSenha(Integer userId, String senhaAtual, String novaSenha) {
         Usuario usuario = buscarPorIdOuFalhar(userId);
 
         if (!passwordService.matches(senhaAtual, usuario.getSenhaHash())) {
@@ -88,7 +88,8 @@ public class UsuarioService {
         }
 
         if (!passwordService.isPasswordStrong(novaSenha)) {
-            throw new RuntimeException("Nova senha deve ter pelo menos 8 caracteres, incluindo letras, números e símbolos");
+            throw new RuntimeException(
+                    "Nova senha deve ter pelo menos 8 caracteres, incluindo letras, números e símbolos");
         }
 
         String novaSenhaHash = passwordService.encode(novaSenha);
@@ -96,11 +97,12 @@ public class UsuarioService {
     }
 
     @Transactional
-    public void redefinirSenha(Long userId, String novaSenha) {
+    public void redefinirSenha(Integer userId, String novaSenha) {
         Usuario usuario = buscarPorIdOuFalhar(userId);
 
         if (!passwordService.isPasswordStrong(novaSenha)) {
-            throw new RuntimeException("Nova senha deve ter pelo menos 8 caracteres, incluindo letras, números e símbolos");
+            throw new RuntimeException(
+                    "Nova senha deve ter pelo menos 8 caracteres, incluindo letras, números e símbolos");
         }
 
         String novaSenhaHash = passwordService.encode(novaSenha);
@@ -108,7 +110,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public void gerarSenhaTemporaria(Long userId) {
+    public void gerarSenhaTemporaria(Integer userId) {
         Usuario usuario = buscarPorIdOuFalhar(userId);
         String senhaTemporaria = passwordService.generateRandomPassword();
         String senhaHash = passwordService.encode(senhaTemporaria);
@@ -122,31 +124,31 @@ public class UsuarioService {
     // ========== MÉTODOS DE ALTERAÇÃO DE ESTADO ==========
 
     @Transactional
-    public void registrarLogin(Long userId) {
+    public void registrarLogin(Integer userId) {
         Usuario usuario = buscarPorIdOuFalhar(userId);
         usuario.registrarLogin();
     }
 
     @Transactional
-    public void ativarConta(Long userId) {
+    public void ativarConta(Integer userId) {
         Usuario usuario = buscarPorIdOuFalhar(userId);
         usuario.ativarConta();
     }
 
     @Transactional
-    public void desativarConta(Long userId) {
+    public void desativarConta(Integer userId) {
         Usuario usuario = buscarPorIdOuFalhar(userId);
         usuario.desativarConta();
     }
 
     @Transactional
-    public void banirConta(Long userId) {
+    public void banirConta(Integer userId) {
         Usuario usuario = buscarPorIdOuFalhar(userId);
         usuario.banirConta();
     }
 
     @Transactional
-    public void atualizarEmail(Long userId, String novoEmail) {
+    public void atualizarEmail(Integer userId, String novoEmail) {
         Usuario usuario = buscarPorIdOuFalhar(userId);
 
         if (usuarioRepository.existsByEmailAndIdUsuarioNot(novoEmail, userId)) {
@@ -157,19 +159,19 @@ public class UsuarioService {
     }
 
     @Transactional
-    public void atualizarTelefone(Long userId, String novoTelefone) {
+    public void atualizarTelefone(Integer userId, String novoTelefone) {
         Usuario usuario = buscarPorIdOuFalhar(userId);
         usuario.atualizarTelefone(novoTelefone);
     }
 
     @Transactional
-    public void atualizarNomeCompleto(Long userId, String novoNome) {
+    public void atualizarNomeCompleto(Integer userId, String novoNome) {
         Usuario usuario = buscarPorIdOuFalhar(userId);
         usuario.setNomeCompleto(novoNome);
     }
 
     @Transactional
-    public void atualizarNomeUsuario(Long userId, String novoNomeUsuario) {
+    public void atualizarNomeUsuario(Integer userId, String novoNomeUsuario) {
         Usuario usuario = buscarPorIdOuFalhar(userId);
 
         if (usuarioRepository.existsByNomeUsuarioAndIdUsuarioNot(novoNomeUsuario, userId)) {
@@ -180,14 +182,14 @@ public class UsuarioService {
     }
 
     @Transactional
-    public void converterParaFreelancer(Long userId) {
+    public void converterParaFreelancer(Integer userId) {
         Usuario usuario = buscarPorIdOuFalhar(userId);
         usuario.converterParaFreelancer();
     }
 
     // ========== MÉTODOS DE CONSULTA ==========
 
-    public Optional<Usuario> buscarPorId(Long userId) {
+    public Optional<Usuario> buscarPorId(Integer userId) {
         return usuarioRepository.findById(userId);
     }
 
@@ -235,25 +237,25 @@ public class UsuarioService {
         return usuarioRepository.findByUltimoLoginIsNull();
     }
 
-    public boolean isUsuarioAtivo(Long userId) {
+    public boolean isUsuarioAtivo(Integer userId) {
         return usuarioRepository.findById(userId)
                 .map(Usuario::isAtivo)
                 .orElse(false);
     }
 
-    public boolean isFreelancer(Long userId) {
+    public boolean isFreelancer(Integer userId) {
         return usuarioRepository.findById(userId)
                 .map(Usuario::isFreelancer)
                 .orElse(false);
     }
 
-    public boolean isCliente(Long userId) {
+    public boolean isCliente(Integer userId) {
         return usuarioRepository.findById(userId)
                 .map(Usuario::isCliente)
                 .orElse(false);
     }
 
-    public boolean isInativoPor(Long userId, Long meses) {
+    public boolean isInativoPor(Integer userId, Long meses) {
         return usuarioRepository.findById(userId)
                 .map(usuario -> usuario.isInativoPor(meses))
                 .orElse(false);
@@ -267,9 +269,9 @@ public class UsuarioService {
         return usuarioRepository.existsByNomeUsuario(nomeUsuario);
     }
 
-//    public long contarPorTipo(UserType tipo) {
-//        return usuarioRepository.countByTipoUsuario(tipo);
-//    }
+    // public long contarPorTipo(UserType tipo) {
+    // return usuarioRepository.countByTipoUsuario(tipo);
+    // }
 
     public long contarPorStatus(AccountStatus status) {
         return usuarioRepository.countByStatusConta(status);
@@ -281,7 +283,7 @@ public class UsuarioService {
 
     // ========== MÉTODOS UTILITÁRIOS PRIVADOS ==========
 
-    private Usuario buscarPorIdOuFalhar(Long userId) {
+    private Usuario buscarPorIdOuFalhar(Integer userId) {
         return usuarioRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado: " + userId));
     }
@@ -310,7 +312,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public void reativarConta(Long userId) {
+    public void reativarConta(Integer userId) {
         Usuario usuario = buscarPorIdOuFalhar(userId);
         if (usuario.getStatusConta() == AccountStatus.BANIDO) {
             throw new RuntimeException("Contas banidas não podem ser reativadas");
@@ -319,7 +321,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public void deletarUsuario(Long userId) {
+    public void deletarUsuario(Integer userId) {
         if (!usuarioRepository.existsById(userId)) {
             throw new RuntimeException("Usuário não encontrado");
         }

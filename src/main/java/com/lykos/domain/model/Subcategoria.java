@@ -12,7 +12,7 @@ import java.util.List;
 public class Subcategoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idSubcategoria;
+    private Integer idSubcategoria;
     
     @ManyToOne
     @JoinColumn(name = "id_categoria", nullable = false)

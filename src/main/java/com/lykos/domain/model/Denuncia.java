@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class Denuncia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idDenuncia;
+    private Integer idDenuncia;
     
     @ManyToOne
     @JoinColumn(name = "id_usuario_denunciante", nullable = false)
@@ -30,7 +30,7 @@ public class Denuncia {
     private String descricao;
     
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "report_status")
     private ReportStatus statusDenuncia = ReportStatus.PENDENTE;
     
     @Column(nullable = false)

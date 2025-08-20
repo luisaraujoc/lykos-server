@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     Optional<Usuario> findByEmail(String email);
     Optional<Usuario> findByEmailIgnoreCase(String email);
@@ -42,7 +42,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     List<Usuario> findByUltimoLoginIsNull();
 
     // Novo: contar por status
-    Long countByStatusConta(AccountStatus status);
+    Integer countByStatusConta(AccountStatus status);
 
     @Query("SELECT u FROM Usuario u WHERE u.email LIKE %:dominio")
     List<Usuario> findByEmailDomain(@Param("dominio") String dominio);
@@ -51,8 +51,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     List<Usuario> findByNomeUsuarioContainingIgnoreCase(String nomeUsuario);
 
     // Para verificar email excluindo o próprio usuário
-    boolean existsByEmailAndIdUsuarioNot(String email, Long idUsuario);
+    boolean existsByEmailAndIdUsuarioNot(String email, Integer idUsuario);
 
     // Para verificar nome de usuário excluindo o próprio usuário
-    boolean existsByNomeUsuarioAndIdUsuarioNot(String nomeUsuario, Long idUsuario);
+    boolean existsByNomeUsuarioAndIdUsuarioNot(String nomeUsuario, Integer idUsuario);
 }

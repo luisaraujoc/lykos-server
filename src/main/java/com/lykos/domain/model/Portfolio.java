@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class Portfolio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idPortfolio;
+    private Integer idPortfolio;
     
     @ManyToOne
     @JoinColumn(name = "id_freelancer", nullable = false)
@@ -26,7 +26,7 @@ public class Portfolio {
     private String descricao;
     
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "media_type")
     private MediaType tipoMidia;
     
     @Column(nullable = false, length = 255)

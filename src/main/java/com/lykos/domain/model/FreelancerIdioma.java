@@ -24,12 +24,12 @@ public class FreelancerIdioma {
     private Idioma idioma;
     
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "language_level")
     private LanguageLevel nivelProficiencia;
 }
 
 @Embeddable
 class FreelancerIdiomaId implements java.io.Serializable {
-    private Long idFreelancer;
-    private Long idIdioma;
+    private Integer idFreelancer;
+    private Integer idIdioma;
 }

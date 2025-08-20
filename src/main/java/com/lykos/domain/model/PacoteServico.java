@@ -15,7 +15,7 @@ import java.util.List;
 public class PacoteServico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idPacote;
+    private Integer idPacote;
     
     @ManyToOne
     @JoinColumn(name = "id_freelancer", nullable = false)
@@ -37,7 +37,7 @@ public class PacoteServico {
     private Integer numeroRevisoes = 0;
     
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "package_status")
     private PackageStatus statusPacote = PackageStatus.ATIVO;
     
     @Column(nullable = false)

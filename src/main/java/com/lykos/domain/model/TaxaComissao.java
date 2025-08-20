@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 public class TaxaComissao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idTaxa;
+    private Integer idTaxa;
     
     @Column(nullable = false, unique = true, precision = 5, scale = 2)
     private BigDecimal percentual;

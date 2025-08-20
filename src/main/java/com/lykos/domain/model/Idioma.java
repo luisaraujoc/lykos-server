@@ -12,7 +12,7 @@ import java.util.List;
 public class Idioma {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idIdioma;
+    private Integer idIdioma;
     
     @Column(nullable = false, length = 50)
     private String nome;

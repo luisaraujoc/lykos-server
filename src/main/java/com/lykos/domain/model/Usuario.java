@@ -15,7 +15,7 @@ import java.util.List;
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idUsuario;
+    private Integer idUsuario;
 
     @Column(nullable = false, length = 100)
     private String nomeCompleto;
@@ -38,11 +38,11 @@ public class Usuario {
     private LocalDateTime ultimoLogin;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "user_type")
     private UserType tipoUsuario;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "account_status")
     private AccountStatus statusConta = AccountStatus.ATIVO;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)

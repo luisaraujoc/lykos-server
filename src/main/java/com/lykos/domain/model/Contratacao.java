@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 public class Contratacao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idContratacao;
+    private Integer idContratacao;
     
     @OneToOne
     @JoinColumn(name = "id_agendamento", nullable = false)
@@ -30,7 +30,7 @@ public class Contratacao {
     private String metodoPagamento;
     
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "payment_status")
     private PaymentStatus statusPagamento = PaymentStatus.PENDENTE;
     
     private LocalDateTime dataPagamento;

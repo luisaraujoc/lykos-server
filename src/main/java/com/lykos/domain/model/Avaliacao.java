@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class Avaliacao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idAvaliacao;
+    private Integer idAvaliacao;
     
     @OneToOne
     @JoinColumn(name = "id_contratacao", nullable = false)

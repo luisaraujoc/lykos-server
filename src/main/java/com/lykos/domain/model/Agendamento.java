@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class Agendamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idAgendamento;
+    private Integer idAgendamento;
     
     @ManyToOne
     @JoinColumn(name = "id_pacote", nullable = false)
@@ -30,7 +30,7 @@ public class Agendamento {
     private LocalDateTime dataFim;
     
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "user_type")
     private ScheduleStatus statusAgendamento = ScheduleStatus.AGENDADO;
     
     @Column(columnDefinition = "TEXT")

@@ -25,6 +25,6 @@ public class FreelancerHabilidade {
 
 @Embeddable
 class FreelancerHabilidadeId implements java.io.Serializable {
-    private Long idFreelancer;
-    private Long idHabilidade;
+    private Integer idFreelancer;
+    private Integer idHabilidade;
 }

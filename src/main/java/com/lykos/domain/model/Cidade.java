@@ -12,7 +12,7 @@ import java.util.List;
 public class Cidade {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idCidade;
+    private Integer idCidade;
     
     @ManyToOne
     @JoinColumn(name = "id_estado", nullable = false)

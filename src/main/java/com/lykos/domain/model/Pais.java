@@ -1,10 +1,9 @@
 package com.lykos.domain.model;
 
-
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 import jakarta.persistence.*;
-import java.util.*
-
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,12 +12,12 @@ import java.util.*
 public class Pais {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idPais;
+    private Integer idPais;
 
     @Column(nullable = false, unique = true, length = 5)
-    private String codigoIso;
+    private String codigoIso; // Ex: BR, US, PT
 
-    @Column(nullable = false, unique = true, length = 100)
+    @Column(nullable = false, unique = true, length = 50)
     private String nome;
 
     @OneToMany(mappedBy = "pais", cascade = CascadeType.ALL)
